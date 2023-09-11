@@ -21,6 +21,10 @@ app.conf.beat_schedule = {
         'task': 'collect_daily_quotes',
         'schedule': crontab(minute='0', hour='12'),
     },
+    'check_threshold': {
+        'task': 'check_threshold',
+        'schedule': crontab(minute='5', hour='12'),
+    },
 }
 
 
