@@ -26,7 +26,9 @@ def test_cached_quotes_list_by_anon(
 ):
     anon_client.get(quotes_list_url)
     cached_data = json.loads(redis_client.get('quotes_cache:values_list'))
+
     response = anon_client.get(quotes_list_url)
+
     assert response.json() == cached_data
     snapshot.assert_match(response.json())
 
