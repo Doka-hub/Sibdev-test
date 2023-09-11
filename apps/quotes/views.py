@@ -69,9 +69,10 @@ class QuotedCurrencyValuesListAPIView(ListAPIView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
+
             queryset = QuotedCurrencyValue.objects.filter(
                 quoted_currency__tracked_by_users__user=self.request.user,
-            )
+            ).distinct()
         else:
             queryset = self.queryset
         last_date = queryset.aggregate(last_date=Max('cbr_date'))['last_date']
