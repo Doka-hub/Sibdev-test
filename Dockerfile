@@ -7,7 +7,8 @@ ENV DOCKER_BUILD_ENVIRONMENT=${DOCKER_BUILD_ENVIRONMENT}
 RUN apt-get update -y
 RUN apt-get install -y \
   apt-utils \
-  netcat-traditional
+  netcat-traditional \
+  redis-server
 
 # Install deps
 RUN pip install poetry>=1.3.2
@@ -17,27 +18,17 @@ COPY pyproject.toml /tmp/install/
 WORKDIR /tmp/install
 RUN poetry install --no-root
 
-# Limited scope (User) context
-# Prepare app user
-#RUN useradd --create-home app
-#WORKDIR /home/app
-#USER app
-
 RUN mkdir -p /home/app
 WORKDIR /home/app
 
 # Create media folder
 RUN mkdir -p /home/app/data/media
-#RUN chown app /home/app/data/media
-#RUN chmod -R +rw /home/app/data/media
 
 # Prepare app bin
-#COPY --chown=app ./bin /home/app/bin
 COPY ./bin /home/app/bin
 RUN chmod -R +xr /home/app/bin
 ENV PATH="/home/app/bin:${PATH}"
 
-#COPY --chown=app ./src /home/app/src
 COPY ./ /home/app/src
 RUN chmod -R +xr /home/app/src
 

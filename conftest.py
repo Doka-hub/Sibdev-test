@@ -20,7 +20,16 @@ def authenticate_client(user):
     return client
 
 
-redis_my_proc = redis_proc(port=6380)
+@pytest.fixture(autouse=True)
+def override_django_settings(settings):
+    """
+    Переопределяет настройки Django для тестов.
+    """
+    settings.REDIS_HOST = '127.0.0.1'
+    settings.REDIS_PORT = 6380
+
+
+redis_my_proc = redis_proc()
 redis_client = redisdb('redis_my_proc')
 
 
