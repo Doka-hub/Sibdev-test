@@ -28,7 +28,11 @@ def get_sorted_cached_data(cached_data, order_by: str):
 class QuotesRedisCache:
     BASE_KEY = 'quotes_cache'
 
-    def __init__(self, host: str = settings.REDIS_HOST, port: int = settings.REDIS_PORT):
+    def __init__(self, host: str = None, port: int = None):
+        if host is None:
+            host = settings.REDIS_HOST
+        if port is None:
+            port = settings.REDIS_PORT
         pool_manager = RedisPoolManager(host, port)
         self.connection = pool_manager.get_connection()
 
@@ -47,3 +51,7 @@ class QuotesRedisCache:
     def set_data_to_cache(self, key: str, data: Any,):
         key = self._build_key(key)
         self.connection.set(key, json.dumps(data))
+
+    def delete_data_from_cache(self):
+        keys = self.connection.keys(f'{self.BASE_KEY}*')
+        self.connection.delete(*keys)
