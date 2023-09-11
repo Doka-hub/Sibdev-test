@@ -77,7 +77,6 @@ def check_threshold():
             f'Данные котировки превысили ПЗ ({tracked_quoted_currency.threshold_value}):\n'
             f'{data[tracked_quoted_currency]}',
         )
-    return True
 
 
 @shared_task(name='collect_archive_quotes')
