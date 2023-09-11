@@ -1,30 +1,13 @@
 from celery import shared_task
 
-from django.conf import settings
-from django.contrib.auth.models import User
-from django.core.mail import send_mail
+from django.db.models import F, Max, CharField, FloatField
+from django.db.models.functions import Cast
 
 from datetime import date, timedelta
 
+from .caches import QuotesRedisCache
 from .cbr_api import CbrXmlAPI
 from .models import TrackedQuotedCurrency, QuotedCurrency, QuotedCurrencyValue
-
-
-@shared_task()
-def send_email(user_id: int):
-    """
-    Отправляет данные на почту
-
-    :param user_id:
-    :return:
-    """
-    user = User.objects.get(id=user_id)
-    send_mail(
-        'Инфо',
-        'Произвольое сообщение :)',
-        settings.EMAIL_HOST_USER,
-        [user.email],
-    )
 
 
 def create_quoted_currency_values(data: dict):
@@ -52,10 +35,49 @@ def collect_daily_quotes():
     Загружает ежедневные котировки
     :return:
     """
+    cache = QuotesRedisCache()
+    cache.delete_data_from_cache()
+
     api = CbrXmlAPI()
     last_quoted_currencies, status_code = api.get_last_quoted_currencies()
     if status_code == 200:
         create_quoted_currency_values(last_quoted_currencies)
+
+
+@shared_task(name='check_threshold')
+def check_threshold():
+    """
+    Проверяет превышение ПЗ и отправляет уведомление на почту
+    :return:
+    """
+    tracked_quoted_currencies = TrackedQuotedCurrency.objects.all()
+    last_date = QuotedCurrencyValue.objects.aggregate(last_date=Max('cbr_date'))['last_date']
+    data = {}
+    for tracked_quoted_currency in tracked_quoted_currencies:
+        values = tracked_quoted_currency.quoted_currency.values.filter(
+            cbr_date=last_date,
+            cbr_value__gte=tracked_quoted_currency.threshold_value,
+        ).annotate(
+            charcode=F('quoted_currency__name'),
+            date=Cast('cbr_date', CharField()),
+            value=Cast('cbr_value', FloatField()),
+        ).values(
+            'id',
+            'charcode',
+            'date',
+            'value',
+        )
+        if data.get(tracked_quoted_currency) is None:
+            data[tracked_quoted_currency] = []
+        data[tracked_quoted_currency].append(list(values))
+
+    for tracked_quoted_currency in data:
+        print(
+            f'{tracked_quoted_currency.user.email}\n'
+            f'Данные котировки превысили ПЗ ({tracked_quoted_currency.threshold_value}):\n'
+            f'{data[tracked_quoted_currency]}',
+        )
+    return True
 
 
 @shared_task(name='collect_archive_quotes')
@@ -66,11 +88,7 @@ def collect_archive_quotes():
     """
     api = CbrXmlAPI()
     date_generator = (date.today() - timedelta(days=i) for i in range(30))
-
     for date_ in date_generator:
         archive_quoted_currencies, status_code = api.get_archive_quoted_currencies(date_)
         if status_code == 200:
-            quoted_currency_values = create_quoted_currency_values(archive_quoted_currencies)
-            tracked_quoted_currencies = TrackedQuotedCurrency.objects.filter(
-                quoted_currency__values__in=quoted_currency_values,
-            )
+            create_quoted_currency_values(archive_quoted_currencies)
