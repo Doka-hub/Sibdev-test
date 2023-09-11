@@ -1,9 +1,5 @@
 # Sibdev Test  
-Тестовое задание на позицию Python разработчик
-
-
-## Installation 
-```poetry install```
+Тестовое задание на позицию Python разработчика
 
 ## Запуск
 ### Docker 
