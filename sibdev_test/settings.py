@@ -154,7 +154,6 @@ REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 CELERY_BROKER_URL = env.get('CELERY_BROKER_URL', 'redis://redis:6379')
 CELERY_RESULT_BACKEND = env.get('CELERY_RESULT_BACKEND', 'redis://redis:6379')
-CELERY_TASK_ALWAYS_EAGER = True
 
 # REST FRAMEWORK
 REST_FRAMEWORK = {

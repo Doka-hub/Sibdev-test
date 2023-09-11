@@ -33,11 +33,6 @@ redis_my_proc = redis_proc()
 redis_client = redisdb('redis_my_proc')
 
 
-@pytest.fixture()
-def celery_config():
-    return {'task_always_eager': True}
-
-
 @pytest.fixture(autouse=True)
 def reset_factory_boy_sequences():
     def get_all_subclasses(klass):
