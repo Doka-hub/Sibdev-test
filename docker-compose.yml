@@ -1,0 +1,63 @@
+version: "3.9"
+services:
+  backend:
+    build: .
+    volumes:
+      - ./:/home/app/src
+    depends_on:
+      - postgres
+      - celery
+      - celery-beat
+    env_file:
+      - env/api.env
+    ports:
+      - "8000:8000"
+
+  static:
+    build: ./static
+    ports:
+      - "8003:80"
+    volumes:
+      - static_data:/www/static/
+
+  postgres:
+    image: postgres:14.4
+    restart: on-failure
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    env_file:
+      - env/db.env
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:alpine
+    volumes:
+      - redis_data:/data
+
+  celery:
+    build: .
+    entrypoint: poetry run celery -A sibdev_test worker -l info
+    volumes:
+      - ./:/home/app/src
+    env_file:
+      - env/api.env
+    depends_on:
+      - redis
+      - postgres
+
+  celery-beat:
+    build: .
+    entrypoint: poetry run celery -A sibdev_test beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    volumes:
+      - ./:/home/app/src
+    env_file:
+      - env/api.env
+    depends_on:
+      - redis
+      - postgres
+
+volumes:
+  db_data:
+  redis_data:
+  static_data:
