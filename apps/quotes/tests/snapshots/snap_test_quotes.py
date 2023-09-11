@@ -11,7 +11,7 @@ snapshots['test_analytic_quoted_currency 1'] = [
     {
         'charcode': 'TVD',
         'date': '2023-06-10T00:00:00+03:00',
-        'id': 37,
+        'id': 46,
         'is_max_value': True,
         'is_min_value': False,
         'is_threshold_exceeded': True,
@@ -22,7 +22,7 @@ snapshots['test_analytic_quoted_currency 1'] = [
     {
         'charcode': 'TVD',
         'date': '2023-06-10T00:00:00+03:00',
-        'id': 38,
+        'id': 47,
         'is_max_value': False,
         'is_min_value': True,
         'is_threshold_exceeded': False,
@@ -33,7 +33,7 @@ snapshots['test_analytic_quoted_currency 1'] = [
     {
         'charcode': 'TVD',
         'date': '2023-06-10T00:00:00+03:00',
-        'id': 39,
+        'id': 48,
         'is_max_value': False,
         'is_min_value': False,
         'is_threshold_exceeded': True,
@@ -44,6 +44,63 @@ snapshots['test_analytic_quoted_currency 1'] = [
 ]
 
 snapshots['test_cached_quotes_list_by_anon 1'] = [
+    {
+        'charcode': 'NPR',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 19,
+        'value': 6036.4963
+    },
+    {
+        'charcode': 'NPR',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 20,
+        'value': 8833.265
+    },
+    {
+        'charcode': 'NPR',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 21,
+        'value': 8127.9149
+    },
+    {
+        'charcode': 'ALL',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 22,
+        'value': 4343.0352
+    },
+    {
+        'charcode': 'ALL',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 23,
+        'value': 9410.327
+    },
+    {
+        'charcode': 'ALL',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 24,
+        'value': 9536.2533
+    },
+    {
+        'charcode': 'KPW',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 25,
+        'value': 403.2423
+    },
+    {
+        'charcode': 'KPW',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 26,
+        'value': 5545.1006
+    },
+    {
+        'charcode': 'KPW',
+        'date': '2023-06-09 21:00:00+00',
+        'id': 27,
+        'value': 7182.565
+    }
+]
+
+snapshots['test_quotes_list_by_anon 1'] = [
     {
         'charcode': 'NPR',
         'date': '2023-06-09 21:00:00+00',
@@ -100,116 +157,23 @@ snapshots['test_cached_quotes_list_by_anon 1'] = [
     }
 ]
 
-snapshots['test_quotes_list_by_anon 1'] = [
-    {
-        'charcode': 'NPR',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 1,
-        'value': 6036.4963
-    },
-    {
-        'charcode': 'NPR',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 2,
-        'value': 8833.265
-    },
-    {
-        'charcode': 'NPR',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 3,
-        'value': 8127.9149
-    },
-    {
-        'charcode': 'ALL',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 4,
-        'value': 4343.0352
-    },
-    {
-        'charcode': 'ALL',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 5,
-        'value': 9410.327
-    },
-    {
-        'charcode': 'ALL',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 6,
-        'value': 9536.2533
-    },
-    {
-        'charcode': 'KPW',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 7,
-        'value': 403.2423
-    },
-    {
-        'charcode': 'KPW',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 8,
-        'value': 5545.1006
-    },
-    {
-        'charcode': 'KPW',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 9,
-        'value': 7182.565
-    }
-]
-
 snapshots['test_quotes_list_by_user 1'] = [
     {
         'charcode': 'TVD',
         'date': '2023-06-09 21:00:00+00',
-        'id': 19,
+        'id': 28,
         'value': 9063.5187
     },
     {
         'charcode': 'TVD',
         'date': '2023-06-09 21:00:00+00',
-        'id': 19,
-        'value': 9063.5187
-    },
-    {
-        'charcode': 'TVD',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 19,
-        'value': 9063.5187
-    },
-    {
-        'charcode': 'TVD',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 20,
+        'id': 29,
         'value': 997.7162
     },
     {
         'charcode': 'TVD',
         'date': '2023-06-09 21:00:00+00',
-        'id': 20,
-        'value': 997.7162
-    },
-    {
-        'charcode': 'TVD',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 20,
-        'value': 997.7162
-    },
-    {
-        'charcode': 'TVD',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 21,
-        'value': 2229.0
-    },
-    {
-        'charcode': 'TVD',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 21,
-        'value': 2229.0
-    },
-    {
-        'charcode': 'TVD',
-        'date': '2023-06-09 21:00:00+00',
-        'id': 21,
+        'id': 30,
         'value': 2229.0
     }
 ]
